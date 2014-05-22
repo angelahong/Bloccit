@@ -27,6 +27,8 @@ Things you may want to cover:
 
 * ...
 
+* config/application.yml was created by the GEM Figaro
+
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
