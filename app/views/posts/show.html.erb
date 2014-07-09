@@ -5,7 +5,7 @@
   <div class="col-md-8">
   <small>
     <%= image_tag(@post.user.avatar.tiny.url) if @post.user.avatar? %>
-    <%= image_tag(@post.user.image.thumb.url) if @post.user.image? %> 
+    <%= image_tag(@post.image.thumb.url) if @post.image? %> 
     submitted <%= time_ago_in_words(@post.created_at) %> ago by
     <%= @post.user.name %>
   </small>
@@ -13,7 +13,13 @@
   </div>
   <div class="col-md-4">
     <% if policy(@post).edit? %>
-      <%= link_to "Edit", edit_topic_post_path(@topic,@post), class: 'btn btn-success' %>
+      <%= link_to "Edit", edit_topic_post_path(@topic,@post), class: 'btn btn-success' %>""
     <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <%= render partial: "comment_form", locals: {comment: Comment.new, topic: @post.topic, post: @post} %>
+    <%= render partial: "comment", collection: @comments %>
   </div>
 </div>

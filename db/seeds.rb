@@ -9,7 +9,7 @@ require 'faker'
 # The `save` method then saves this User to the database.
 
 User.destroy_all
-#Topic.destroy_all
+Topic.destroy_all
 Post.destroy_all
 Comment.destroy_all
 
@@ -48,11 +48,11 @@ topics = Topic.all
   post_user.posts.create(topic: topics.sample, title: Faker::Lorem.sentence , body: Faker::Lorem.paragraph)
 end
 
+# Create comments
 200.times do
   post = Post.all.shuffle.first
-  post.comments.create(body: Faker::Lorem.paragraph)
+  post.comments.create(body: Faker::Lorem.paragraph, user_id: users.shuffle.first.id)
 end
-
 
 # Create an admin user
 admin = User.new(
@@ -82,6 +82,7 @@ member = User.new(
 )
 member.skip_confirmation!
 member.save
+
 
 puts "Seed finished"
 puts "#{User.count} users created"

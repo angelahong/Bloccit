@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   def show
     @topic = Topic.find(params[:topic_id])
-    @post = Post.find(params[:id])
+    @post = @topic.posts.find(params[:id])
+    @comments = @post.comments
   end
 
   def new
@@ -41,11 +42,11 @@ class PostsController < ApplicationController
       flash[:error] = "There was an error saving the post. Please try again."
       render :new
     end
+  end
 
-    private
+  private
 
-    def post_params
-      params.require(:post).permit(:title, :body, :image)
-    end
+  def post_params
+    params.require(:post).permit(:title, :body, :image)
   end
 end
