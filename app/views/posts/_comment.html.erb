@@ -1,6 +1,9 @@
 <div class="well">
   <strong><%= comment.user.name %> said:</strong><br/>
-  <p>
-    <%= comment.body %>
-  </p>
+  <p><%= comment.body %></p>
+  <strong>
+    <% if policy(comment).destroy? %>
+      <%= link_to "Delete", [@topic, @post, comment], method: :delete %>
+    <% end %>
+  </strong>
 </div>
