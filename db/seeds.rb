@@ -43,10 +43,20 @@ users = User.all
 end
 topics = Topic.all
 
-10.times do 
-  post_user = users.shuffle.first
-  post_user.posts.create(topic: topics.sample, title: Faker::Lorem.sentence , body: Faker::Lorem.paragraph)
+# Create Posts
+50.times do
+  post = Post.create(
+    user:   users.sample,
+    topic:  topics.sample,
+    title:  Faker::Lorem.sentence,
+    body:   Faker::Lorem.paragraph
+  )
+
+  # set the created_at to a time within the past year
+  post.update_attribute(:created_at, rand(10.minutes .. 1.year).ago)
+  post.update_rank
 end
+posts = Post.all
 
 # Create comments
 200.times do
