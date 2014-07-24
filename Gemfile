@@ -46,4 +46,7 @@ gem 'mini_magick'
 gem 'fog'
 gem 'will_paginate', '~> 3.0.5'
 
+gem "hiredis", "~> 0.4.0"
+gem "redis", ">= 2.2.0", require: ["redis", "redis/connection/hiredis"]
+
 
