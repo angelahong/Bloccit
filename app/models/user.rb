@@ -17,6 +17,31 @@ class User < ActiveRecord::Base
     self.favorites.where(post_id: post.id).first
   end
 
+  def like!(post)
+    likes_mananger = LikeManager.new(self, post)
+    likes_mananger.like!
+  end
+
+  def unlike!(post)
+    likes_manager = LikeManager.new(self, post)
+    likes_manager.unlike!
+  end
+
+  def liked_posts(post)
+    likes_manager = LikeManager.new(self, post)
+    likes_manager.liked_posts
+  end
+
+  def likes_count_for_users(post)
+    likes_manager = LikeManager.new(self, post)
+    likes_manager.likes_count_for_users
+  end
+
+  def user_already_liked_post?(post)
+    likes_manager = LikeManager.new(self, post)
+    likes_manager.user_already_liked_post?
+  end
+
   private
 
 end

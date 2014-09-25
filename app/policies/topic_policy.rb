@@ -15,5 +15,9 @@ class TopicPolicy < ApplicationPolicy
   def destroy?
     user.present? && (user.role?(:admin) || user.role?(:moderator))
   end
+
+  def show?
+    record.public? || user.present?
+  end
   
 end

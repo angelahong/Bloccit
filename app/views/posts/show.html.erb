@@ -1,4 +1,5 @@
 <div class="row">
+
   <div class="col-md-8">
       <%= render partial: 'votes/voter', locals: { topic: @topic, post: @post } %>
       <h1><%= markdown @post.title %></h1>
@@ -10,6 +11,7 @@
   </small>
    <p><%= markdown @post.body %></p>
   </div>
+
   <div class="col-md-4">
     <% if policy(@post).edit? %>
       <%= link_to "Edit", edit_topic_post_path(@topic,@post), class: 'btn btn-success' %>
@@ -27,9 +29,25 @@
     <%= render partial: 'favorites/favorite', locals: { topic: @topic, post: @post } %>
   </div>
 </div>
+
+
+
 <div class="row">
   <div class="col-md-8">
     <%= render partial: "comment_form", locals: {comment: Comment.new, topic: @post.topic, post: @post} %>
     <%= render partial: "comment", collection: @comments %>
+
+    <br></br>
+    <div>
+      <% if current_user.user_already_liked_post?(@post) %>
+        <%= link_to "Unlike", topic_post_like_url(@topic,@post, @post), method: :delete, class: 'btn btn-danger' %>
+      <% else %>
+        <%= link_to "Like", topic_post_likes_url(@topic,@post), method: :post, class: 'btn btn-success' %>
+      <% end %>
+      <br><small><%= @post.like_string_for(current_user) %></small></br>
+    </div>
+
   </div>
 </div>
+
+

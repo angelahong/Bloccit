@@ -11,8 +11,30 @@ class Post < ActiveRecord::Base
 
   validates :title, length: { minimum: 5 }, presence: true
   validates :body, length: { minimum: 20 }, presence: true
-  validates :topic, presence: true
-  validates :user, presence: true
+  validates :topic_id, presence: true
+  validates :user_id, presence: true
+
+  def like_string_for(user)
+    likes_manager = LikeManager.new(user, self)  
+    like_string = ""
+    if likes_manager.user_already_liked_post?
+      like_string += "You"
+    end
+
+    random_liker = likes_manager.liking_users.shuffle.sample
+    if random_liker.present?
+      like_string += ", #{User.find(random_liker).name}"
+    end
+
+    if likes_manager.likes_count_for_post > 2
+      like_string += " and #{likes_manager.likes_count_for_post - 2}"
+    end
+
+    if like_string.present?
+      like_string += " like this post."
+    end
+    like_string
+  end
 
   def up_votes
     self.votes.where(value: 1).count
@@ -31,6 +53,16 @@ class Post < ActiveRecord::Base
     new_rank = points + age
 
     self.update_attribute(:rank, new_rank)
+  end
+
+  def liking_users(user)
+    likes_manager = LikeManager.new(user, self)
+    likes_manager.liking_users
+  end
+
+  def likes_count_for_post(user)
+    likes_manager = LikeManager.new(user, self)
+    likes_manager.likes_count_for_post
   end
 
   private
