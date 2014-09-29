@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe Topic do
    describe "scopes" do
  
@@ -28,7 +30,7 @@ describe Topic do
  
        it "returns only public topics if user is nil" do
          # Your code here
-         expect(Topic.visible_to(nil)).to eq(Topic.public)
+         expect(Topic.visible_to(nil)).to eq(Topic.publicly_viewable)
        end
      end
    end

@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
     likes_manager.user_already_liked_post?
   end
 
+  def voted(post)
+    #voted should return whether the user has any posts
+  end
+
   private
 
 end
