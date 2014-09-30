@@ -11,6 +11,7 @@ class Comment < ActiveRecord::Base
       if should_receive_update_for?(favorite)
         FavoriteMailer.new_comment(favorite.user, post, self).deliver
       end
+    end
   end
  
    def should_receive_update_for?(favorite)
