@@ -1,9 +1,24 @@
- <h1><%= @user.name %></h1>
+<h1><%= @user.name %></h1>
+ <div class="row">
+   <div class="col-md-8">
+     <div class="media">
+       <% if @user.avatar? %>
+         <%= image_tag @user.avatar.url, class: 'pull-left' %>
+       <% end %>
+       <div class="media-body">
+         <h2 class="media-heading"><%= @user.name %></h2>
+         <small>
+           <%= pluralize(@user.posts.count, 'post') %>,
+           <%= pluralize(@user.comments.count, 'comment') %>
+         </small>
+       </div>
+       <h2>Comments</h2>
+       <% @comments.each do |comment| %>
+         <%= comment.body %>
+       <% end %>
+       <%= render @comments %>
+     </div>
+   </div>
+ </div>
  
- <h2>Posts</h2>
- <%= render @posts %>
-
- <h2>Comments</h2>
- <% @comments.each do |comment| %>
-   <%= comment.body %>
- <% end %>
+ </br>
