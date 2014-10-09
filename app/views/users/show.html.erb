@@ -9,8 +9,8 @@
          <h2 class="media-heading"><%= @user.name %></h2>
          <small>
            <%= pluralize(@user.posts.count, 'post') %>,
-           <%= pluralize(@user.comments.count, 'comment') %>
-         </small>
+           <div class='js-comments-count'><%= pluralize(@user.comments.count, 'comment') %></div>
+           </small>
        </div>
        <h2>Comments</h2>
        <% @comments.each do |comment| %>
