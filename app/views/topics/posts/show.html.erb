@@ -1,53 +1,46 @@
 <div class="row">
-
   <div class="col-md-8">
-      <%= render partial: 'votes/voter', locals: { topic: @topic, post: @post } %>
-      <h1><%= markdown @post.title %></h1>
-  <small>
-    <%= image_tag(@post.user.avatar.tiny.url) if @post.user.avatar? %>
-    <%= image_tag(@post.image.thumb.url) if @post.image? %> 
-    submitted <%= time_ago_in_words(@post.created_at) %> ago by
-    <%= @post.user.name %>
-  </small>
-   <p><%= markdown @post.body %></p>
+    <%= render partial: 'votes/voter', locals: { post: @post } %>
+    <h1>
+      <%= image_tag(@post.image.thumb.url) if @post.image? %>
+      <%= markdown @post.title %>
+    </h1>
+    <small>
+      <%= image_tag(@post.user.avatar.tiny.url) if @post.user.avatar? %>
+      submitted <%= time_ago_in_words(@post.created_at) %> ago by
+      <%= @post.user.name %>
+    </small>
+    <p><%= markdown @post.body %></p>
+    
   </div>
-
   <div class="col-md-4">
     <% if policy(@post).edit? %>
       <%= link_to "Edit", edit_topic_post_path(@topic,@post), class: 'btn btn-success' %>
     <% end %>
-    <% if policy(@post).destroy? %>
-      <%= link_to "Delete Post", [@topic, @post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this post?' } %>
-    <% end %>
-    <div>
-      <h3><%= pluralize(@post.points, 'point') %></h3>
-      <small>
-        <%= pluralize(@post.up_votes, 'up vote') %>
-        <%= pluralize(@post.down_votes, 'down vote') %>
-      </small>
-    </div>
-    <%= render partial: 'favorites/favorite', locals: { topic: @topic, post: @post } %>
   </div>
+  <% if policy(@post).destroy? %>
+    <%= link_to "Delete Post", [@topic, @post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this post?' } %>
+  <% end %>
+  <div>
+    <h3><%= pluralize(@post.points, 'point') %></h3>
+    <small>
+      <%= pluralize(@post.up_votes, 'up vote') %>, 
+      <%= pluralize(@post.down_votes, 'down vote') %>
+    </small>
+  </div>
+  <%= render partial: 'favorites/favorite', locals: { post: @post } %>
 </div>
 
-
+</br>
 
 <div class="row">
-  <div class="col-md-8">
-    <%= render partial: "comment_form", locals: {comment: Comment.new, topic: @post.topic, post: @post} %>
-    <%= render partial: 'comments/comment', collection: @comments %>
-
-    <br></br>
-    <div>
-      <% if current_user.user_already_liked_post?(@post) %>
-        <%= link_to "Unlike", topic_post_like_url(@topic,@post, @post), method: :delete, class: 'btn btn-danger' %>
-      <% else %>
-        <%= link_to "Like", topic_post_likes_url(@topic,@post), method: :post, class: 'btn btn-success' %>
-      <% end %>
-      <br><small><%= @post.like_string_for(current_user) %></small></br>
+  <h2>Comments</h2>
+  <div class='col-md-12'>
+    <div class='js-comments'>
+      <%= render partial: 'comments/comment', collection: @comments %>
     </div>
-
+    <div class='new-comment'>
+      <%= render 'comments/form' %>
+    </div>
   </div>
 </div>
-
-

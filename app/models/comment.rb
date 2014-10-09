@@ -5,6 +5,8 @@ class Comment < ActiveRecord::Base
 
   validates :body, length: { minimum: 5 }, presence: true
 
+  default_scope { order('updated_at DESC') }
+
   private
   def send_favorite_emails
     post.favorites.each do |favorite|
